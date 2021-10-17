@@ -19,24 +19,20 @@ async function generateUrl(object: S3.Object):Promise<{filename: string, url:str
 
 async function getPhotos(event: APIGatewayProxyEventV2, context: Context): Promise<APIGatewayProxyResultV2> {
     console.log(' I got the bucket name and it is' + bucketName);
-    // try {
-    //     const {Contents:results} = await s3.listObjects({Bucket: bucketName}).promise();
-    //     const photos = await Promise.all(results!.map(result => generateUrl(result)))
+    try {
+        const {Contents:results} = await s3.listObjects({Bucket: bucketName}).promise();
+        const photos = await Promise.all(results!.map(result => generateUrl(result)))
     
-    //     return {
-    //         statusCode: 200,
-    //         body: JSON.stringify(photos)
-    //     }
+        return {
+            statusCode: 200,
+            body: JSON.stringify(photos)
+        }
 
-    // } catch(error){
-    //     return {
-    //         statusCode: 500,
-    //         body: error.message
-    //     }
-    // }
-    return {
-        statusCode: 200,
-        body: 'hello from lambda, it is alive'
+    } catch(error){
+        return {
+            statusCode: 500,
+            body: error.message
+        }
     }
 }
 
