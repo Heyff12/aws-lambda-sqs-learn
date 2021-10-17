@@ -1,0 +1,113 @@
+{
+  "version": "14.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "LambdaSqsStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "LambdaSqsStack.template.json",
+        "validateOnSynth": false
+      },
+      "metadata": {
+        "/LambdaSqsStack/LambdaSqsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaSqsBucket28F6B286",
+            "trace": [
+              "new Bucket (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:713:22)",
+              "new LambdaSqsStack (/Users/yaya/Documents/learn/aws/lambda-sqs/lib/lambda-sqs-stack.ts:9:20)",
+              "Object.<anonymous> (/Users/yaya/Documents/learn/aws/lambda-sqs/bin/lambda-sqs.ts:7:1)",
+              "Module._compile (node:internal/modules/cjs/loader:1101:14)",
+              "Module.m._compile (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (node:internal/modules/cjs/loader:1153:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (node:internal/modules/cjs/loader:981:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:822:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:79:12)",
+              "main (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1101:14)",
+              "Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)",
+              "Module.load (node:internal/modules/cjs/loader:981:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:822:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:79:12)",
+              "node:internal/main/run_main_module:17:47"
+            ]
+          }
+        ],
+        "/LambdaSqsStack/LambdaSqsBucketNameExport": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaSqsBucketNameExport",
+            "trace": [
+              "new LambdaSqsStack (/Users/yaya/Documents/learn/aws/lambda-sqs/lib/lambda-sqs-stack.ts:13:5)",
+              "Object.<anonymous> (/Users/yaya/Documents/learn/aws/lambda-sqs/bin/lambda-sqs.ts:7:1)",
+              "Module._compile (node:internal/modules/cjs/loader:1101:14)",
+              "Module.m._compile (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (node:internal/modules/cjs/loader:1153:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (node:internal/modules/cjs/loader:981:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:822:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:79:12)",
+              "main (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1101:14)",
+              "Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)",
+              "Module.load (node:internal/modules/cjs/loader:981:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:822:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:79:12)",
+              "node:internal/main/run_main_module:17:47"
+            ]
+          }
+        ],
+        "/LambdaSqsStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata",
+            "trace": [
+              "new MetadataResource (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/metadata-resource.ts:22:24)",
+              "/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:166:5",
+              "visit (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:231:5)",
+              "visit (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:227:5)",
+              "injectMetadataResources (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:157:3)",
+              "Object.synthesize (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:18:3)",
+              "App.synth (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/stage.ts:94:23)",
+              "process.<anonymous> (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/app.ts:64:45)",
+              "Object.onceWrapper (node:events:510:26)",
+              "process.emit (node:events:390:28)",
+              "process.emit (node:domain:475:12)",
+              "process.emit (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/source-map-support/source-map-support.js:516:21)"
+            ]
+          }
+        ],
+        "/LambdaSqsStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable",
+            "trace": [
+              "new MetadataResource (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/metadata-resource.ts:31:27)",
+              "/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:166:5",
+              "visit (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:231:5)",
+              "visit (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:227:5)",
+              "injectMetadataResources (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:157:3)",
+              "Object.synthesize (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/private/synthesis.ts:18:3)",
+              "App.synth (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/stage.ts:94:23)",
+              "process.<anonymous> (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/@aws-cdk/core/lib/app.ts:64:45)",
+              "Object.onceWrapper (node:events:510:26)",
+              "process.emit (node:events:390:28)",
+              "process.emit (node:domain:475:12)",
+              "process.emit (/Users/yaya/Documents/learn/aws/lambda-sqs/node_modules/source-map-support/source-map-support.js:516:21)"
+            ]
+          }
+        ]
+      },
+      "displayName": "LambdaSqsStack"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Construct",
+          "version": "1.125.0"
+        }
+      },
+      "LambdaSqsStack": {
+        "id": "LambdaSqsStack",
+        "path": "LambdaSqsStack",
+        "children": {
+          "LambdaSqsBucket": {
+            "id": "LambdaSqsBucket",
+            "path": "LambdaSqsStack/LambdaSqsBucket",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "LambdaSqsStack/LambdaSqsBucket/Notifications",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.125.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "LambdaSqsStack/LambdaSqsBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketEncryption": {
+                      "serverSideEncryptionConfiguration": [
+                        {
+                          "serverSideEncryptionByDefault": {
+                            "sseAlgorithm": "AES256"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
+                  "version": "1.125.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-s3.Bucket",
+              "version": "1.125.0"
+            }
+          },
+          "LambdaSqsBucketNameExport": {
+            "id": "LambdaSqsBucketNameExport",
+            "path": "LambdaSqsStack/LambdaSqsBucketNameExport",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnOutput",
+              "version": "1.125.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "LambdaSqsStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "LambdaSqsStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnResource",
+                  "version": "1.125.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "LambdaSqsStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnCondition",
+                  "version": "1.125.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.125.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Stack",
+          "version": "1.125.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "@aws-cdk/core.App",
+      "version": "1.125.0"
+    }
+  }
+}
