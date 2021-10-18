@@ -24,7 +24,7 @@ async function getPhotos(event: APIGatewayProxyEventV2, context: Context): Promi
         const {Contents:results} = await s3.listObjects({Bucket: bucketName}).promise();
         const photos = await Promise.all(results!.map(result => generateUrl(result)))
 
-        sendMessage({
+        await sendMessage({
             messageBody: 'This message is form getPhotos'
         })
     

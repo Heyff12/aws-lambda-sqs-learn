@@ -86,6 +86,14 @@ export class LambdaSqsStack extends cdk.Stack {
 
     getPhotos.addToRolePolicy(bucketPermissions)
     getPhotos.addToRolePolicy(bucketContainerPermissions)
+    // add sqs rights
+    getPhotos.addToRolePolicy(
+      new PolicyStatement({
+        actions: ['sqs:Get*','sqs:List*', 'sqs:SendMessage','sqs:ReceiveMessage','sqs:DeleteMessage'],
+        effect: Effect.ALLOW,
+        resources: [queue.queueArn]
+      })
+    )
 
     // create api path to the lambda
     const httpApi = new HttpApi(this,'LambdaSqsHttpApi',{
