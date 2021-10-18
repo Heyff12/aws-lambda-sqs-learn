@@ -44,6 +44,9 @@ async function getPhotos(event: APIGatewayProxyEventV2, context: Context): Promi
 async function getPhotosSqsEvent(event: SQSEvent, context: Context): Promise<void> {
     console.log(event)
     console.log(' I was trigger by sqs')
+    if(event.Records[0].body === 'error'){
+        throw 'error'
+    }
 }
 
 export {
