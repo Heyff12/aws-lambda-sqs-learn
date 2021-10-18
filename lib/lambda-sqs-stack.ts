@@ -4,16 +4,18 @@ import * as lambda from '@aws-cdk/aws-lambda-nodejs'
 import { Runtime } from '@aws-cdk/aws-lambda';
 import * as path from 'path';
 import {BucketDeployment, Source} from '@aws-cdk/aws-s3-deployment'
+import { PolicyStatement } from '@aws-cdk/aws-iam';
 
 export class LambdaSqsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // create bucket  and deploy photos to bucket 
+    // ---------------------------bucket----------------------------------------------------------
+    // create bucket  
     const bucket = new Bucket(this, 'LambdaSqsBucket',{
       encryption: BucketEncryption.S3_MANAGED
     })
-
+    // deploy photos to bucket 
     new BucketDeployment(this, 'LambdaSqsPhotos', {
       sources: [
         Source.asset(path.join(__dirname,'..','photos'))
@@ -21,6 +23,7 @@ export class LambdaSqsStack extends cdk.Stack {
       destinationBucket: bucket
     })
 
+    // ---------------------------lambda----------------------------------------------------------
     // create lambda getPhotos, handler is in folder named api
     const getPhotos = new lambda.NodejsFunction(this,'LambdaSqsLambda',{
       runtime: Runtime.NODEJS_12_X,
@@ -30,6 +33,17 @@ export class LambdaSqsStack extends cdk.Stack {
         PHOTO_BUCKET_NAME: bucket.bucketName
       }
     })
+    // create rights for lambda to access bucket
+    const bucketContainerPermissions = new PolicyStatement();
+    bucketContainerPermissions.addResources(bucket.bucketArn);
+    bucketContainerPermissions.addActions('s3:ListBucket');
+
+    const bucketPermissions = new PolicyStatement();
+    bucketPermissions.addResources(`${bucket.bucketArn}/*`);
+    bucketPermissions.addActions('s3:GetObject', 's3:PutObject')
+
+    getPhotos.addToRolePolicy(bucketPermissions)
+    getPhotos.addToRolePolicy(bucketContainerPermissions)
 
     // output values
     new cdk.CfnOutput(this,'LambdaSqsBucketNameExport',{
