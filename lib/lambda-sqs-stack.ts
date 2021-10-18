@@ -5,6 +5,8 @@ import { Runtime } from '@aws-cdk/aws-lambda';
 import * as path from 'path';
 import {BucketDeployment, Source} from '@aws-cdk/aws-s3-deployment'
 import { PolicyStatement } from '@aws-cdk/aws-iam';
+import { CorsHttpMethod, HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2'
+import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
 
 export class LambdaSqsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -45,10 +47,36 @@ export class LambdaSqsStack extends cdk.Stack {
     getPhotos.addToRolePolicy(bucketPermissions)
     getPhotos.addToRolePolicy(bucketContainerPermissions)
 
+    // create api path to the lambda
+    const httpApi = new HttpApi(this,'LambdaSqsHttpApi',{
+      corsPreflight: {
+        allowOrigins: ['*'],
+        allowMethods: [ CorsHttpMethod.GET ]
+      },
+      apiName: 'photo-api',
+      createDefaultStage: true
+    })
+
+    const lambdaIntegration = new LambdaProxyIntegration({
+      handler: getPhotos
+    });
+
+    httpApi.addRoutes({
+      path: '/getAllPhotos',
+      methods: [
+        HttpMethod.GET
+      ],
+      integration: lambdaIntegration
+    })
+
     // output values
     new cdk.CfnOutput(this,'LambdaSqsBucketNameExport',{
       value: bucket.bucketName,
       exportName: 'LambdaSqsBucketName'
+    })
+    new cdk.CfnOutput(this,'LambdaSqsApi',{
+      value: httpApi.url!,
+      exportName: 'LambdaSqsApiEndPoint'
     })
   }
 }
