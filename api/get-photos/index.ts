@@ -1,5 +1,6 @@
-import { APIGatewayProxyEventV2, Context, APIGatewayProxyResultV2 } from 'aws-lambda'
+import { APIGatewayProxyEventV2, Context, APIGatewayProxyResultV2, SQSEvent } from 'aws-lambda'
 import {S3} from 'aws-sdk'
+import { sendMessage } from './queue';
 
 const s3 = new S3();
 const bucketName = process.env.PHOTO_BUCKET_NAME!
@@ -22,6 +23,10 @@ async function getPhotos(event: APIGatewayProxyEventV2, context: Context): Promi
     try {
         const {Contents:results} = await s3.listObjects({Bucket: bucketName}).promise();
         const photos = await Promise.all(results!.map(result => generateUrl(result)))
+
+        sendMessage({
+            messageBody: 'This message is form getPhotos'
+        })
     
         return {
             statusCode: 200,
@@ -36,6 +41,12 @@ async function getPhotos(event: APIGatewayProxyEventV2, context: Context): Promi
     }
 }
 
+async function getPhotosSqsEvent(event: SQSEvent, context: Context): Promise<void> {
+    console.log(event)
+    console.log(' I was trigger by sqs')
+}
+
 export {
-    getPhotos
+    getPhotos,
+    getPhotosSqsEvent
 }
