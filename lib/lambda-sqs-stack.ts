@@ -46,6 +46,12 @@ export class LambdaSqsStack extends cdk.Stack {
       }
     });
 
+    // create queue rights
+    const queuePermissions = new PolicyStatement({
+      actions: ['sqs:Get*','sqs:List*', 'sqs:SendMessage','sqs:ReceiveMessage','sqs:DeleteMessage'],
+      effect: Effect.ALLOW,
+      resources: [queue.queueArn]
+    })
     // ---------------------------lambda----------------------------------------------------------
     // create an lambda which be trigger by sendmessage
     const getPhotosSqsEventLambda = new lambda.NodejsFunction(this, 'LambdaSqsEventLambda',{
@@ -56,13 +62,7 @@ export class LambdaSqsStack extends cdk.Stack {
     // add sqs event
     getPhotosSqsEventLambda.addEventSource(new SqsEventSource(queue, {batchSize:1}))
     // add sqs rights
-    getPhotosSqsEventLambda.addToRolePolicy(
-      new PolicyStatement({
-        actions: ['sqs:Get*','sqs:List*', 'sqs:SendMessage','sqs:ReceiveMessage','sqs:DeleteMessage'],
-        effect: Effect.ALLOW,
-        resources: [queue.queueArn]
-      })
-    )
+    getPhotosSqsEventLambda.addToRolePolicy(queuePermissions)
 
 
     // create lambda getPhotos, handler is in folder named api
@@ -87,13 +87,7 @@ export class LambdaSqsStack extends cdk.Stack {
     getPhotos.addToRolePolicy(bucketPermissions)
     getPhotos.addToRolePolicy(bucketContainerPermissions)
     // add sqs rights
-    getPhotos.addToRolePolicy(
-      new PolicyStatement({
-        actions: ['sqs:Get*','sqs:List*', 'sqs:SendMessage','sqs:ReceiveMessage','sqs:DeleteMessage'],
-        effect: Effect.ALLOW,
-        resources: [queue.queueArn]
-      })
-    )
+    getPhotos.addToRolePolicy(queuePermissions)
 
     // create api path to the lambda
     const httpApi = new HttpApi(this,'LambdaSqsHttpApi',{
