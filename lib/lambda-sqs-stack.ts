@@ -120,11 +120,6 @@ export class LambdaSqsStack extends cdk.Stack {
       publicReadAccess: true
     })
 
-    new BucketDeployment(this, 'LambdaSqsWebsiteBucketDeploy',{
-      sources:[Source.asset(path.join(__dirname,'..','frontend','build'))],
-      destinationBucket: websiteBucket
-    })
-
     const cloudFront = new CloudFrontWebDistribution(this,'LambdaSqsDistruibution',{
       originConfigs:[
         {
@@ -137,6 +132,12 @@ export class LambdaSqsStack extends cdk.Stack {
           behaviors: [{isDefaultBehavior:true}]
         }
       ]
+    })
+
+    new BucketDeployment(this, 'LambdaSqsWebsiteBucketDeploy',{
+      sources:[Source.asset(path.join(__dirname,'..','frontend','build'))],
+      destinationBucket: websiteBucket,
+      distribution: cloudFront
     })
 
     // const cloudFront = new Distribution(this,'LambdaSqsDistribution',{
