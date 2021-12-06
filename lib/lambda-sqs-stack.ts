@@ -125,11 +125,11 @@ export class LambdaSqsStack extends cdk.Stack {
       destinationBucket: websiteBucket
     })
 
-    const cloudFront = new CloudFrontWebDistribution(this,'',{
+    const cloudFront = new CloudFrontWebDistribution(this,'LambdaSqsDistruibution',{
       originConfigs:[
         {
           customOriginSource:{
-            domainName: websiteBucket.bucketDualStackDomainName
+            domainName: websiteBucket.bucketWebsiteDomainName
           },
           behaviors: [{isDefaultBehavior:true}]
         }
