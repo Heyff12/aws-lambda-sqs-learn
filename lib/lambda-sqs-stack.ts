@@ -10,6 +10,7 @@ import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { Duration } from '@aws-cdk/core';
 import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
 
 export class LambdaSqsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -124,6 +125,17 @@ export class LambdaSqsStack extends cdk.Stack {
       destinationBucket: websiteBucket
     })
 
+    const cloudFront = new CloudFrontWebDistribution(this,'',{
+      originConfigs:[
+        {
+          customOriginSource:{
+            domainName: websiteBucket.bucketDualStackDomainName
+          },
+          behaviors: [{isDefaultBehavior:true}]
+        }
+      ]
+    })
+
     // const cloudFront = new Distribution(this,'LambdaSqsDistribution',{
     //   defaultBehavior: {origin: new S3Origin(websiteBucket)},
     //   domainNames: [props.dnsName],
@@ -144,6 +156,10 @@ export class LambdaSqsStack extends cdk.Stack {
     new cdk.CfnOutput(this,'LambdaSqsWebsiteBucketExport',{
       value: websiteBucket.bucketName,
       exportName: 'LambdaSqsWebsiteBucket'
+    })
+    new cdk.CfnOutput(this,'LambdaSqsWebsiteUrl',{
+      value: cloudFront.distributionDomainName,
+      exportName: 'LambdaSqsWebsiteUrl'
     })
     new cdk.CfnOutput(this,'LambdaSqsApi',{
       value: httpApi.url!,
