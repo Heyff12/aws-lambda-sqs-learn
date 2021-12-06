@@ -3,11 +3,12 @@ import { sqsClient } from "./sqsClient"
 
 interface SendMessageParams {
     messageBody: string
+    queueUrl: string
 }
 export const sendMessage = async (payload: SendMessageParams): Promise<void> => {
-    const {messageBody} = payload
+    const {messageBody,queueUrl} = payload
     const params = {
-        QueueUrl: 'https://sqs.us-east-2.amazonaws.com/071139447073/lambdaSqsQueue',
+        QueueUrl: queueUrl,
         MessageBody: messageBody
     }
     await sqsClient.send(new SendMessageCommand(params))

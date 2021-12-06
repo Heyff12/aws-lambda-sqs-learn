@@ -1,6 +1,6 @@
 import { APIGatewayProxyEventV2, Context, APIGatewayProxyResultV2, SQSEvent } from 'aws-lambda'
 import {S3} from 'aws-sdk'
-import { sendMessage } from './queue';
+import { sendMessage } from '../queue';
 
 const s3 = new S3();
 const bucketName = process.env.PHOTO_BUCKET_NAME!
@@ -25,7 +25,8 @@ async function getPhotos(event: APIGatewayProxyEventV2, context: Context): Promi
         const photos = await Promise.all(results!.map(result => generateUrl(result)))
 
         await sendMessage({
-            messageBody: 'This message is form getPhotos'
+            messageBody: 'This message is form getPhotos',
+            queueUrl: process.env.QUEUE_URL!
         })
     
         return {

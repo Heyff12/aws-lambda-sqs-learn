@@ -71,7 +71,8 @@ export class LambdaSqsStack extends cdk.Stack {
       entry: path.join(__dirname, '..', 'api', 'get-photos', 'index.ts'),
       handler: 'getPhotos',
       environment: {
-        PHOTO_BUCKET_NAME: bucket.bucketName
+        PHOTO_BUCKET_NAME: bucket.bucketName,
+        QUEUE_URL: queue.queueUrl
       }
     })
 
@@ -89,6 +90,7 @@ export class LambdaSqsStack extends cdk.Stack {
     // add sqs rights
     getPhotos.addToRolePolicy(queuePermissions)
 
+    // ---------------------------apiGateway----------------------------------------------------------
     // create api path to the lambda
     const httpApi = new HttpApi(this,'LambdaSqsHttpApi',{
       corsPreflight: {
@@ -111,10 +113,37 @@ export class LambdaSqsStack extends cdk.Stack {
       integration: lambdaIntegration
     })
 
+    // ---------------------------website----------------------------------------------------------
+    const websiteBucket = new Bucket(this,'LambdaSqsWebsiteBucket',{
+      websiteIndexDocument: 'index.html',
+      publicReadAccess: true
+    })
+
+    new BucketDeployment(this, 'LambdaSqsWebsiteBucketDeploy',{
+      sources:[Source.asset(path.join(__dirname,'..','frontend','build'))],
+      destinationBucket: websiteBucket
+    })
+
+    // const cloudFront = new Distribution(this,'LambdaSqsDistribution',{
+    //   defaultBehavior: {origin: new S3Origin(websiteBucket)},
+    //   domainNames: [props.dnsName],
+    //   certificate: props.certificate
+    // })
+
+    // new ARecord(this,'MySimpleAppRecordApex',{
+    //   zone: props.hostedZone,
+    //   target: RecordTarget.fromAlias(new CloudFrontTarget(cloudFront))
+    // })
+
+    // ---------------------------outputs----------------------------------------------------------
     // output values
     new cdk.CfnOutput(this,'LambdaSqsBucketNameExport',{
       value: bucket.bucketName,
       exportName: 'LambdaSqsBucketName'
+    })
+    new cdk.CfnOutput(this,'LambdaSqsWebsiteBucketExport',{
+      value: websiteBucket.bucketName,
+      exportName: 'LambdaSqsWebsiteBucket'
     })
     new cdk.CfnOutput(this,'LambdaSqsApi',{
       value: httpApi.url!,
